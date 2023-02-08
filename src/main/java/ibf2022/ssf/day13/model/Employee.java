@@ -30,23 +30,20 @@ public class Employee {
     private String email;
 
     @NotEmpty(message = "Phone number is required.")
-    @Pattern(regexp = "(\\8|9)[0-9]{7}", message = "Wrong phone format.")
+    @Pattern(regexp = "(8|9)[0-9]{7}", message = "Wrong phone format.")
     private String phoneNumber;
 
-    @NotEmpty(message = "Salary input is required.")
     @Min(value = 1500, message = "Minimum value is $1,500")
     @Max(value = 400000, message = "Max value is $400,000")
     private Integer salary;
 
-    @NotEmpty(message = "Birthday is required.")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Past
     private Date birthDay;
 
     @NotEmpty(message = "Address is required.")
     private String address;
 
-    @NotEmpty(message = "Postal code is required.")
     @Digits(fraction = 0, integer = 6, message = "Postal code format is: 123456.")
     private Integer postalCode;
 

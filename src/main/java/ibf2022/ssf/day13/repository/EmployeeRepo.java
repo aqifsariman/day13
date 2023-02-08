@@ -22,13 +22,13 @@ public class EmployeeRepo {
         DateFormat df = new SimpleDateFormat("MM-dd-yyyy");
         Date birthday = df.parse("01-10-1980");
 
-        Employee firstEMP = new Employee("Darth", "Vader", "deathstar@gmail.com", "90096006", 100000, birthday,
+        Employee emp = new Employee("Darth", "Vader", "deathstar@gmail.com", "90096006", 100000, birthday,
                 "Tatooine", 665665);
-        employees.add(firstEMP);
+        employees.add(emp);
 
-        Employee secondEMP = new Employee("Harry", "Potter", "harrypotter@hogwarts.com", "60069009", 150000, birthday,
+        emp = new Employee("Harry", "Potter", "harrypotter@hogwarts.com", "60069009", 150000, birthday,
                 "Privet Drive", 643256);
-        employees.add(secondEMP);
+        employees.add(emp);
 
     }
 
@@ -36,12 +36,12 @@ public class EmployeeRepo {
         return employees;
     }
 
-    public Boolean saved(Employee employee) {
+    public Boolean save(Employee employee) {
         Boolean result = employees.add(employee);
         return result;
     }
 
-    public Boolean deleted(Employee employee) {
+    public Boolean delete(Employee employee) {
         // Employee e = employees.stream().filter(emp ->
         // emp.getEmail().equalsIgnoreCase(employee.getEmail())).findFirst()
         // .get();
@@ -55,5 +55,10 @@ public class EmployeeRepo {
         }
         return result;
 
+    }
+
+    public Employee findByEmail(String email) {
+        Employee emp = employees.stream().filter(e -> e.getEmail().equalsIgnoreCase(email)).findFirst().get();
+        return emp;
     }
 }
