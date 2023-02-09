@@ -1,5 +1,12 @@
 package ibf2022.ssf.day13.repository;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,9 +20,14 @@ import ibf2022.ssf.day13.model.Employee;
 
 @Repository
 public class EmployeeRepo {
+    final String fileName = "employee.txt";
+    final String dirPath = System.getProperty("user.dir") + File.separator + "storage";
     private List<Employee> employees;
 
-    public EmployeeRepo() throws ParseException {
+    public EmployeeRepo() throws ParseException, FileNotFoundException {
+        // File f = new File(dirPath + File.separator + fileName);
+        // FileReader fr = new FileReader(f);
+        // BufferedReader br = new BufferedReader(fr);
         if (employees == null) {
             employees = new ArrayList<Employee>();
         }
@@ -36,8 +48,14 @@ public class EmployeeRepo {
         return employees;
     }
 
-    public Boolean save(Employee employee) {
+    public Boolean save(Employee employee) throws FileNotFoundException {
         Boolean result = employees.add(employee);
+        File f = new File(dirPath + File.separator + fileName);
+        OutputStream os = new FileOutputStream(f, true);
+        PrintWriter pw = new PrintWriter(os);
+        pw.println(employee.toString());
+        pw.flush();
+        pw.close();
         return result;
     }
 
@@ -60,5 +78,26 @@ public class EmployeeRepo {
     public Employee findByEmail(String email) {
         Employee emp = employees.stream().filter(e -> e.getEmail().equalsIgnoreCase(email)).findFirst().get();
         return emp;
+    }
+
+    public Boolean updateEmployee(Employee employee) {
+        Employee emp = employees.stream().filter(e -> e.getEmail().equalsIgnoreCase(employee.getEmail())).findFirst()
+                .get();
+
+        int idx = 0;
+        if (idx >= 0) {
+            idx = employees.indexOf(emp);
+            employees.remove(idx);
+
+            // employees.get(idx).setAddress(employee.getAddress());
+            // employees.get(idx).setFirstName(employee.getFirstName());
+            // employees.get(idx).setLastName(employee.getLastName());
+            // employees.get(idx).setSalary(employee.getSalary());
+            // employees.get(idx).setPhoneNumber(employee.getPhoneNumber());
+            // employees.get(idx).setPostalCode(employee.getPostalCode());
+            // employees.get(idx).setBirthDay(employee.getBirthDay());
+        }
+        employees.add(employee);
+        return true;
     }
 }
